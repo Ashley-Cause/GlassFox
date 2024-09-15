@@ -13,7 +13,7 @@ Within this repository, there are two files: `userChrome.css` and `userContent.c
 ### To install the theme:
 1. Open a new tab and navigate to `about:profiles`.
 2. Click the button to "Show in Finder" under the profile you are currently on.
-3. Within that profile folder (e.g. `Profiles/*.default/`), create a `chrome` folder, if it doesn't exist
+3. Within that profile folder (e.g. `Profiles/*.default/`), create a `chrome` folder if it doesn't already exist
 4. Download the `userChrome.css`, and optionally the `userContent.css` file from this repository, and place them inside the `chrome` folder in your profile's directory.
 
 ### To activate the styling.
