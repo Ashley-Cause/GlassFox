@@ -1,5 +1,5 @@
 # GlassFox
-Firefox Theme for macOS which makes the browser fully transparent through some questionable styling choices.
+GlassFox is my custom Firefox Theme for macOS which makes the browser fully transparent through some questionable styling choices.
 In progress-ish in that its not a perfect overhaul, but I probably won't really add to it much as I've not got time to maintain it really.
 
 <img width="1710" alt="image" src="https://github.com/user-attachments/assets/f776e6d4-4d23-44e2-8892-0f5211200c56">
@@ -47,3 +47,13 @@ Saves the tabs you have open when you close a window, so that you can reopen the
 Sometimes Firefox glitches and clears my tabs, or I accidentally open a different window and lose my pinned tabs.
 Tab Session Manager means its less painful to get them back.
 Also useful if you're trying to keep track of different projects, you can rename sessions to make them easy to find.
+
+#### [Stylus](https://addons.mozilla.org/en-US/firefox/addon/styl-us/)
+I'm not a big fan of scrollbars on the main body of web pages, and sometimes the scrollbar also clips into the edge of the website content,
+so I use Stylus to hide the scrollbars.
+Pretty simple to use, but all you have to do to hide the scrollbars is create a new style, and paste the following into the stylesheet.
+```css
+html, body {
+    scrollbar-width: none;
+}
+```
