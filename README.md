@@ -57,3 +57,9 @@ html, body {
     scrollbar-width: none;
 }
 ```
+
+**More on Stylus**
+Stylus is probably where I will add more support for transparency on other websites, instead of updating this repository.
+And so I've created a style on Stylus called `GlassFox`, which contains all of the styles that are in `userContent.css`, except for the styles
+for built-in Firefox pages such as any page with the url prefix `about:`.
+So if you don't mind the lack of transparency on the newtab page for example, but still want some transparency, install the `GlassFox` style on Stylus.
