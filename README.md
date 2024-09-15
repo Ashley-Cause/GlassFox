@@ -1,5 +1,11 @@
 # GlassFox
 Firefox Theme for macOS which makes the browser fully transparent through some questionable styling choices.
+In progress-ish in that its not a perfect overhaul, but I probably won't really add to it much as I've not got time to maintain it really.
+
+<img width="1710" alt="image" src="https://github.com/user-attachments/assets/f776e6d4-4d23-44e2-8892-0f5211200c56">
+
+<img width="1710" alt="image" src="https://github.com/user-attachments/assets/07648cda-1c5f-4711-872a-4f2c5204dc30">
+
 
 ## PLEASE NOTE: I'VE ONLY TESTED THIS THEME ON MACOS
 
@@ -19,7 +25,25 @@ Within this repository, there are two files: `userChrome.css` and `userContent.c
 ### To activate the styling.
 1. Open a new tab and navigate to `about:config`.
 2. If you get a warning, click `Accept the Risk and Continue`.
-3. Search for `stylesheets`, and enable `toolkit.legacyUserProfileCustomizations.stylesheets`.
-4. If you also downloaded `userContent.css`, search for and enable `browser.tabs.allow_transparent_browser`
+3. Search for and enable (set to `true`):
+  1. `toolkit.legacyUserProfileCustomizations.stylesheets`.
+  2. `widget.macos.titlebar-blend-mode.behind-window`
+  3. If you downloaded `userContent.css`: `browser.tabs.allow_transparent_browser`
 
-### To make it look good(ish i think)
+### To make the styling work well
+Also in `about:config`
+1. Search for and enable (set to `true`):
+  1. `sidebar.verticalTabs`
+  2. `sidebar.revamp`
+  3. set `browser.toolbars.bookmarks.visibility` to `newtab`
+
+
+### Extensions that I use with this theme
+#### [UnloadTabs](https://addons.mozilla.org/en-US/firefox/addon/unload-tabs/)
+Self explanatory, lets you unload tabs at will via the tab context menu or a keyboard shortcut.
+
+#### [Tab Session Manager](https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/)
+Saves the tabs you have open when you close a window, so that you can reopen them later if you want to.
+Sometimes Firefox glitches and clears my tabs, or I accidentally open a different window and lose my pinned tabs.
+Tab Session Manager means its less painful to get them back.
+Also useful if you're trying to keep track of different projects, you can rename sessions to make them easy to find.
