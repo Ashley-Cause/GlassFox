@@ -1,0 +1,244 @@
+/* 
+Margins + jank 
+
+In other words, attempting to fix all the damage I did by giving the 
+#navigator-toolbox and #browser absolute positioning.
+*/
+:root {
+    
+    --content-padding: 15px;
+    
+    &[BookmarksToolbarOverlapsBrowser] {
+        #appcontent,
+        .chromeclass-extrachrome {
+            --bookmark-margin: calc(var(--bookmarks-toolbar-overlapping-browser-height) + 5px);
+        }
+        & .newTabBrowserPanel {
+            margin-top: 0px !important;
+        }
+    }
+    :has(#urlbar[open]) {
+        #browser > :not(#sidebar-main) {
+            z-index: 0;
+        }
+    }
+    &[customizing] {
+        #customization-container {
+            margin-top: calc(var(--urlbar-min-height) + var(--bookmarks-toolbar-overlapping-browser-height));
+            z-index: 2;
+        }
+    }
+    #navigator-toolbox {
+        --sidebar: var(--sidebar-collapsed-width);
+        --buttonbox-margin: 72px;
+        & > :not(#PersonalToolbar) {
+            --sidebar-width: calc(var(--sidebar) - 38px * var(--toolbar-elements, 8) + var(--buttonbox-margin, 0px));
+        }
+        #PersonalToolbar {
+            --sidebar-width: calc(var(--sidebar) + 2 * var(--content-padding))
+        }
+    }
+    &:has(#sidebar-main [expanded]) #navigator-toolbox {
+        --sidebar: var(--sidebar-expanded-width) !important;
+    }
+    
+    &[inDOMFullscreen] {
+        #browser {
+            margin: 0px;
+            gap: 0px;
+            > * {
+                border: none !important;
+                border-radius: 0px;
+            }
+        }
+    }
+    
+    &[inFullscreen="true"] {
+        #navbar {
+            --buttonbox-margin: 0px;
+        }
+        &:has(#navigator-toolbox:not([style=""])) {
+            #browser {
+                --fullscreen-buttonbox-dropdown: 28px;
+            }
+        }
+    }
+}
+
+
+/* 
+How many toolbar elements are there before my urlbar? 
+
+This is basically just a bunch of fluff to make sure that
+the urlbar doesnt overlap with the extended sidebar
+*/
+:root {
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(1)) {
+        --toolbar-elements: 1;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(2)) {
+        --toolbar-elements: 2;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(3)) {
+        --toolbar-elements: 3;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(4)) {
+        --toolbar-elements: 4;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(5)) {
+        --toolbar-elements: 5;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(6)) {
+        --toolbar-elements: 6;
+    }
+    &:has(#nav-bar-customization-target #urlbar-container:nth-child(7)) {
+        --toolbar-elements: 7;
+    }
+}
+
+
+/* Transparent Styling */
+
+:root {
+    @media (prefers-color-scheme: dark) {
+        --main-background: rgba(0, 0, 0, .2)
+    }
+    @media (prefers-color-scheme: light) {
+        --main-background: rgba(255, 255, 255, .1);
+    }
+}
+
+#navigator-toolbox, div.wrapper, tab[pending] .tab-stack .tab-background {
+    background-color: var(--main-background) !important;
+}
+
+#customization-container, #tabbrowser-tabpanels, #navigator-toolbox > * {
+    background-color: transparent !important;
+}
+
+
+/* 
+Hacky Background Preparation 
+
+This is all here to actually give the window some transparency.
+It's hacky because I pretty much just gave the titlebar/tabs bar a full 
+height as it was the only part of the browser with any true transparency,
+and then just shifting everything else up however much.
+
+Such a clean solution. (kidding)
+*/
+#navigator-toolbox {
+    
+    position: absolute !important;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    
+    
+    /*   
+    Because this whole layout is kinda designed for the use of the sidebar, 
+    I've hidden the top tabbar because I don't really like the way it looks.
+    */
+    
+    #titlebar {
+        visibility: collapse;
+        .titlebar-buttonbox-container {
+            visibility: visible !important;
+            position: absolute !important;
+            height: 0px;
+            margin-top: 20px;
+        }
+    }
+    > * {
+        &:not(#titlebar) {
+            padding-left: max(var(--buttonbox-margin),var(--sidebar-width)) !important;
+        }
+    }   
+}
+
+
+/* Sectioning */
+body > #browser {
+    
+    .sidebar-animation-screenshot {
+        opacity: 0;
+    }
+    
+    position: absolute;
+    margin: var(--content-padding);
+    transition: margin-top ease .2s;
+    margin-top: calc(40.5px + var(--fullscreen-buttonbox-dropdown, 0px));
+    gap: calc(var(--content-padding)*1.2);
+    > * {
+        margin-top: calc(var(--bookmark-margin, 0px)) !important;
+        z-index: 1;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+        border: none !important;
+        border-radius: 10px;
+        overflow: hidden;
+        
+        &:has(tabbox+tabbox) {
+            padding: var(--content-padding) !important;
+            gap: calc(var(--content-padding)/2);
+            tabbox {
+                border-radius: 10px !important;
+                overflow: hidden !important;
+                box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            }
+        }
+        &#sidebar-splitter {
+            opacity: 0 !important;
+            margin: 0px calc(var(--content-padding)*-1.2) !important;
+            width: var(--content-padding) !important;
+        }
+        &#sidebar-box {
+            padding: 0px !important;
+        }
+        
+    }
+    /*   
+    Resizing tabs for more in view at once.
+    
+    Written for my use case wherein I have a lot of pinned tabs.
+    For this reason, I've styled the max-height of the #vertical-pinned-tabs-container
+    to be half of the view height.
+    
+    */
+    sidebar-main {
+        &:not([expanded]) > #vertical-tabs > #tabbrowser-tabs[orient="vertical"] {
+            --scale: 80%;
+            tab {
+                scale: var(--scale);
+                &:has(+tab) {
+                    margin-bottom: calc((var(--scale) - 100%)) !important;
+                }
+            }
+        }
+        #vertical-pinned-tabs-container {
+            scrollbar-width: none !important;
+            max-height: 50vh !important;
+        }
+        * {
+            scrollbar-width: none !important;
+        }
+    }
+}
+
+/* 
+Tab styling 
+
+Adding some basic styling to tabs for unloaded tabs, and currently active
+ones, to make them easier to distinguish between.
+*/
+tab {
+    .tab-stack {
+        transition: all ease .5s;
+        .tab-background {
+            transition: background-color ease .5s;
+        }
+    }
+ &[pending] .tab-stack {
+    opacity: .5;
+    filter: sepia(80%) !important;
+}
+}

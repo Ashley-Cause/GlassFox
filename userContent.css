@@ -1,0 +1,251 @@
+:root {
+    --stacking-bg: rgba(0, 0, 0, .1);
+    --content-bg: rgba(0, 0, 0, .2);
+    --card-bg: rgba(0, 0, 0, .3);
+    --card-bg-dark: rgba(0, 0, 0, .4);
+}
+
+/* All Firefox pages */
+@-moz-document url-prefix("about:") {
+    html, body {
+        background: rgba(0, 0, 0, .1) !important;
+        scrollbar-width: none !important;
+    }
+}
+
+@-moz-document url-prefix("about:config") {
+    #prefs {
+        background: var(--content-bg) !important;
+        tr{
+            background: var(--card-bg-dark);
+            .odd {
+                background: var(--card-bg) !important;
+            }
+        }
+    }
+}
+
+@-moz-document url-prefix("about:addons") {
+    .sticky-container {
+        position: relative !important;
+        &, & > * {
+            background: transparent !important;
+        }
+    }
+    .card.addon {
+        background: var(--card-bg)
+    }
+}
+
+/* imports */
+
+@-moz-document domain(compass.education) {
+    html, body, form {
+        background: transparent !important;
+    }
+
+    #productNavBar, .newLNF .home-schoolNameContainer, .newLNF .c_col .x-toolbar, .newLNF .newsfeed-newsItem, .newLNF .newsfeed-newsItemsAndToolbarContainer, .x-container.newsfeed-alertItem.x-container-default {
+        background: var(--card-bg) !important;
+    }
+    
+}
+
+@-moz-document domain(forms.office.com) {
+    #RuntimeRoot {
+        background: transparent !important;
+    }
+    #form-main-content1 {
+        scrollbar-width: none !important;
+    }
+}
+
+@-moz-document domain(icloud.com) {
+    .header-container-background, ui-main-pane > * {
+        border-radius: 10px;
+    }
+
+    .scrollable {
+        scrollbar-width: none !important;
+    }
+
+    html, body, footer, .homepage-viewport > * {
+        background: transparent !important;
+    }
+}
+
+@-moz-document domain(monkeytype.com) {
+    body {
+        background: transparent !important;
+    }
+}
+
+@-moz-document domain(youtube.com) {
+    html[dark], #background {
+        background: var(--content-bg) !important;
+    }
+    #guide-inner-content {
+        scrollbar-width: none !important;
+    }
+    :root {
+        --yt-spec-base-background: var(--stacking-bg) !important;
+        --app-drawer-content-container-background-color: var(--stacking-bg) !important;
+        --dark-theme-background-color: var(--stacking-bg) !important;
+        --efyt-control-bar-background-color: var(--stacking-bg) !important;
+        --efyt-control-bar-tooltip-background-color: var(--stacking-bg) !important;
+        --paper-dialog-background-color: var(--stacking-bg) !important;
+        --paper-listbox-background-color: var(--stacking-bg) !important;
+        --paper-menu-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-action-panel-background-color-transparent: var(--stacking-bg) !important;
+        --yt-live-chat-additional-inline-action-button-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-additional-inline-action-button-background-color-hover: var(--stacking-bg) !important;
+        --yt-live-chat-additive-background-inverse: var(--stacking-bg) !important;
+        --yt-live-chat-author-chip-verified-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-automod-button-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-automod-button-background-color-hover: var(--stacking-bg) !important;
+        --yt-live-chat-background-color: var(--stacking-bg) !important;;
+        --yt-live-chat-button-dark-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-button-default-background-color: var(--stacking-bg) !important;
+        --yt-live-chat-dialog-background-color: var(--stacking-bg) !important;
+    }
+}
+
+@-moz-document domain(reddit.com) {
+    header {
+        background-color: var(--card-bg) !important;
+        backdrop-filter: blur(20px);
+    }    
+    body, html, .bg-neutral-background, .threadline, reddit-sidebar-nav, shreddit-post, aside, .reddit-search-bar, comment-body-header, shreddit-comment-tree{
+        background-color: transparent !important;
+    }
+}
+
+@-moz-document domain(reddit.com) {
+    header {
+        background-color: var(--card-bg) !important;
+        backdrop-filter: blur(20px);
+    }    
+    body, html, reddit-sidebar-nav, shreddit-post, aside, .reddit-search-bar{
+        background-color: transparent !important;
+    }
+}
+
+@-moz-document domain(google.com) {
+    .sfbg {
+        background-color: var(--card-bg) !important;
+        /* backdrop-filter: blur(20px);         */
+    }
+    body, html, div#search > * {
+        background-color: transparent !important;
+    }
+    .g, .appbar {
+        background-color: transparent !important;
+    }
+    div#rso {
+        * {
+            background-color: transparent !important;
+        }
+    }
+    div#cnt > div {
+
+    }
+}
+
+@-moz-document domain(github.com) {
+
+    body, html, header, #repository-container-header, .bgColor-muted, section, .search-results-page {
+        background-color: transparent !important;
+    }
+}
+
+@-moz-document domain(discord.com) {
+    :root {
+        .layer_cd0de5 :is([role="dialog"], .streamPreview_adbea6) {
+            background: hsl(var(--primary-700-hsl)) !important;
+        }
+        
+        --primary-560: rgba(0, 0, 0, 0.05) !important;
+        --primary-600: rgba(0, 0, 0, 0.05) !important;
+        --primary-630: rgba(0, 0, 0, 0.05) !important;
+        --primary-645: rgba(0, 0, 0, 0.05) !important;
+        --primary-660: rgba(0, 0, 0, 0.05) !important;
+        --primary-700: rgba(0, 0, 0, 0.05) !important;
+        --primary-730: rgba(0, 0, 0, 0.05) !important;
+        --primary-760: rgba(0, 0, 0, 0.05) !important;
+        --primary-830: rgba(0, 0, 0, 0.05) !important;
+        --primary-860: rgba(0, 0, 0, 0.05) !important;
+        --primary-900: rgba(0, 0, 0, 0.05) !important;
+    }
+    .no-webkit-scrollbar * {
+        scrollbar-width: none !important;
+    }
+}
+
+
+@-moz-document domain(modrinth.com) {
+    :root {
+        --color-bg: transparent !important;
+        --color-raised-bg: rgba(0, 0, 0, .2) !important;
+        --color-button-bg: rgba(0, 0, 0, .2) !important;
+        
+        .scrollable-pane {
+            scrollbar-width: none !important;
+            
+        }
+        
+        .group.flex.gap-1 {
+            background: rgba(0, 0, 0, .05) !important;
+            border-radius: 10px;
+        }
+    }
+}
+
+@-moz-document domain(outlook.office.com) {
+    :root {
+        
+        #searchSuggestionsCallout {
+            --neutralPrimarySurface: #292929 !important;
+            border-radius: 0px 0px 5px 5px !important;
+            border: 10px solid var(--neutralTertiaryAlt);
+            overflow: hidden;
+            [role="option"]:hover {
+                --neutralLighterAlt: var(--content-bg) !important;
+            }
+        }
+        
+        --neutralPrimarySurface: rgba(0, 0, 0, .1) !important;
+        --neutralSecondarySurface: transparent !important;
+        --neutralTertiarySurface: rgba(0, 0, 0, .3) !important;
+        --neutralTertiaryAlt: rgba(255, 255, 255, .7) !important;
+        --neutralLighter: rgba(0, 0, 0, .3) !important;
+        --themePrimary: rgba(255, 255, 255, .7) !important;
+        --neutralLighterAlt:rgba(0, 0, 0, .05) !important;
+        --neutralQuaternaryAlt: rgba(0, 0, 0, .2) !important;
+        
+        .customScrollBar {
+            scrollbar-width: none !important;
+        }
+        .o365sx-navbar {
+            background: rgba(0, 0, 0, .1) !important;
+        }
+        .o365cs-base .o365sx-button, .o365cs-base .o365sx-appName {
+            background: transparent !important;
+        }
+    }
+}
+
+@-moz-document domain(chatgpt.com) {
+    :root {
+        --main-surface-primary: var(--content-bg) !important;
+        --main-surface-secondary: var(--stacking-bg) !important;
+        --sidebar-surface-primary: var(--content-bg) !important;
+        --text-quaternary: rgba(255, 255, 255, .6) !important;
+        
+        .overflow-y-auto {
+            scrollbar-width: none !important;
+        }
+        
+        div.pb-2 {
+            overflow: hidden;
+        }
+    }
+}
