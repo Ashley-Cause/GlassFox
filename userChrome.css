@@ -1,19 +1,19 @@
 /* General Sizing */
-
 :root {
   --browser-padding: 10px;
   --border-radius: 5px;
+  &:not([inFullscreen="true"]) {
+    --toolbar-bgcolor: tranparent !important;
+  }
 }
 
 /* Transparency/Translucency */
 :is(body > *,
 #navigator-toolbox,
-#sidebar-main,
-#browser,
-div.wrapper) {
+#browser
+) {
   appearance: -moz-window-titlebar !important;
-  &:not(div.wrapper, #customization-container) > * {
-    background: rgba(0, 0, 0, .1) !important;
+  &:not(#customization-container) > * {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
   }
 }
@@ -25,16 +25,17 @@ General Browser Styling
     - Padding
   - Rounded Borders
 */
-body > #browser, #navigator-toolbox {
-  padding: var(--browser-padding) !important;
-  gap: var(--browser-padding);
-  
-  > *, sidebar-main {
-    border-radius: var(--border-radius) !important;
-    border: none !important;
+:root:not([inDOMFullscreen]) {
+  body > #browser, #navigator-toolbox {
+    padding: var(--browser-padding) !important;
+    gap: var(--browser-padding);
+
+    & > *, sidebar-main {
+      border-radius: var(--border-radius) !important;
+      border: none !important;
+    }
   }
 }
-
 body > #browser {
   margin-top: calc(-2 * var(--browser-padding));
   #tabbrowser-tabpanels, #appcontent {
@@ -56,29 +57,68 @@ splitter[class*="devtools"] {
   display: none !important;
 }
 
-:root {
-  &:has(#sidebar-main [expanded]) {
-    --sidebar-width: var(--sidebar-expanded-width);
-  }
-  &[BookmarksToolbarOverlapsBrowser] {
-    #PersonalToolbar {
-      margin-left: calc(var(--sidebar-width, var(--sidebar-collapsed-width)) + var(--browser-padding)) !important;
-    }
-    .newTabBrowserPanel, & #sidebar-main, & #sidebar-box, & .sidebar-animation-screenshot {
-      margin-top: 0px !important;
-    }
-    body > #browser > :not(#sidebar-main) {
-      margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height) + var(--browser-padding));
-    }
-  }
-  &:has(sidebar-main:not([hidden])) {
+/* Hide titlebar and adjust buttonbox as well as sidebar layout when sidebar is enabled */
+@media (-moz-bool-pref: "sidebar.verticalTabs") {
+  :root {
     #titlebar {
       display: none !important;
     }
-    #nav-bar > toolbartabstop:nth-child(1) {
+    &:not([inFullscreen="true"]) #nav-bar > toolbartabstop:first-child {
       appearance: -moz-window-button-box !important;
       margin: 12px;
     }
+    #sidebar-main {
+      margin-top: 0px !important;
+    }
+    &:has(#sidebar-main [expanded]) {
+      --sidebar-width: var(--sidebar-expanded-width)
+    }
+    &[BookmarksToolbarOverlapsBrowser] {
+      #PersonalToolbar {
+        margin-left: calc(var(--sidebar-width, var(--sidebar-collapsed-width)) + var(--browser-padding)) !important;
+      }
+      body > #browser > :not(#sidebar-main) {
+        margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height) + var(--browser-padding)) !important;
+      }
+    }
   }
-  
+}
+
+/* Custom Magnification effect for sidebar */
+@media (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") and (-moz-bool-pref: "sidebar.verticalTabs") {
+  sidebar-main:not([expanded]) {
+    overflow-x: clip;
+    #tabbrowser-tabs {
+      width:min-content;
+      & > :has(tab) {
+        max-height: 50% !important;
+        & > tab {
+          transition: width ease .2s !important;
+          transform-origin: left center;
+          width: calc( 100% * var(--tab-scale, 1)) !important;
+          
+          .tab-icon-stack {
+            transition: scale ease .3s;
+            scale: var(--tab-scale);
+          }
+          
+          &:has(+tab+tab:hover), &:is(tab:hover+tab+tab) {
+            --tab-scale:  1.05;
+          }
+          &:has(+tab:hover), &:is(tab:hover+tab) {
+            --tab-scale: 1.25;
+          }
+          &:hover {
+            --tab-scale: 1.5;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (-moz-bool-pref: "glassfox.sidebar.hide-new-tab-button") {
+  #vertical-tabs #newtab-button-container {
+    display: none;
+  }
 }
