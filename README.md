@@ -1,5 +1,5 @@
 # GlassFox
-GlassFox is my custom Firefox Theme for macOS which makes the browser fully transparent through some questionable styling choices.
+GlassFox is my custom Firefox Theme for macOS which attempts to make the browser fully transparency, or take advantage of macOS' vibrancy.
 In progress-ish in that its not a perfect overhaul, but I probably won't really add to it much as I've not got time to maintain it really.
 
 <img width="1710" alt="image" src="https://github.com/user-attachments/assets/f776e6d4-4d23-44e2-8892-0f5211200c56">
@@ -29,14 +29,6 @@ Within this repository, there are two files: `userChrome.css` and `userContent.c
   1. `toolkit.legacyUserProfileCustomizations.stylesheets`.
   2. `widget.macos.titlebar-blend-mode.behind-window`
   3. If you downloaded `userContent.css`: `browser.tabs.allow_transparent_browser`
-
-### To make the styling work well
-Also in `about:config`
-1. Search for and enable (set to `true`):
-  1. `sidebar.verticalTabs`
-  2. `sidebar.revamp`
-  3. set `browser.toolbars.bookmarks.visibility` to `newtab`
-
 
 ### Extensions that I use with this theme
 #### [UnloadTabs](https://addons.mozilla.org/en-US/firefox/addon/unload-tabs/)
