@@ -14,7 +14,6 @@ Within this repository, there are two files: `userChrome.css` and `userContent.c
 `userChrome.css` is the file which provodes the transparency to the Firefox browser itself.
 `userContent.css` provides some styling to a select few websites which I have thus far been bothered to style, to also make them transparent. As well as generally all of the built-in Firefox web pages such as the newtab page, the addons manager, and the settings page (`about:newtab`, `about:addons`, `about:preferences`).
 
-
 ## Getting Started
 ### To install the theme:
 1. Open a new tab and navigate to `about:profiles`.
@@ -29,6 +28,20 @@ Within this repository, there are two files: `userChrome.css` and `userContent.c
   1. `toolkit.legacyUserProfileCustomizations.stylesheets`.
   2. `widget.macos.titlebar-blend-mode.behind-window`
   3. If you downloaded `userContent.css`: `browser.tabs.allow_transparent_browser`
+
+### Custom Config Values
+In an attempt to make this theme more customizable, as is always one of my main priorities, as someone who spends so much time adjusting the small things, I've added support for disabling certain features of the theme, like smaller tabs, taller tab containers, etc etc, all of which can be controlled via settings in `about:config`, as follows.
+
+| Feature | Name in `about:config` |
+|-|-|
+|Disable transparency | `glassfox.transparency.disabled` |
+|Smaller tabs|`glassfox.sidebar.smaller-tabs`|
+|Taller pinned tab container| `glassfox.sidebar.taller-pinned-tabs`|
+|Move tab preview to right of tab|`glassfox.sidebar.tab-preview-on-side`|
+|macOS-like Dock Magnification effect for the sidebar|`glassfox.sidebar.magnification-enabled`|
+|Whether to magnify the `height` or `width` of tabs (`width` is somewhat broken currently, so while it's my preferred option, I have, and I'd recommend that you too, keep this setting disabled or unset until I have found a workaround or a new implementation. That being said, you're most welcome to use it if you prefer it.)|`glassfox.sidebar.magnification-width`|
+|Hide the new tab button in the sidebar|`glassfox.sidebar.hide-new-tab-button`|
+
 
 ### Extensions that I use with this theme
 #### [UnloadTabs](https://addons.mozilla.org/en-US/firefox/addon/unload-tabs/)
