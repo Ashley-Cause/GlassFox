@@ -1,24 +1,26 @@
 /* General Sizing */
 :root {
-  --transparent-bg-dark: rgba(0, 0, 0, 0.2);
-  --transparent-bg-light: rgba(255, 255, 255, .05);
-  --browser-padding: 10px;
-  --border-radius: 5px;
-  &:not([inFullscreen="true"]) {
-    --toolbar-bgcolor: tranparent !important;
-  }
+    --transparent-bg-dark: rgba(0, 0, 0, 0.2);
+    --transparent-bg-light: rgba(255, 255, 255, .05);
+    --transparent-bg-solid: rgba(0, 0, 0, .4);
+    --browser-padding: 10px;
+    --border-radius: 5px;
+    &:not([inFullscreen="true"]) {
+        --toolbar-bgcolor: tranparent !important;
+    }
 }
 
 /* Transparency/Translucency */
 @media not (-moz-bool-pref: "glassfox.transparency.disabled") {
-  :is(body > *,
-  #navigator-toolbox,
-  #browser) {
-    appearance: -moz-window-titlebar !important;
-    &:not(#customization-container) > * {
-      box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
+    body > *,
+    #navigator-toolbox,
+    #browser {
+        appearance: -moz-window-titlebar !important;
+        &:not(#customization-container) > * {
+            background: var(--transparent-bg-dark) !important;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
+        }
     }
-  }
 }
 
 /* 
@@ -29,145 +31,191 @@ General Browser Styling
   - Rounded Borders
 */
 :root:not([inDOMFullscreen]) {
-  body > #browser, #navigator-toolbox {
-    padding: var(--browser-padding) !important;
-    gap: var(--browser-padding);
-
-    & > *, sidebar-main {
-      border-radius: var(--border-radius) !important;
-      border: none !important;
+    body > #browser, #navigator-toolbox {
+        padding: var(--browser-padding) !important;
+        gap: var(--browser-padding);
+        & > *, sidebar-main {
+            border-radius: var(--border-radius) !important;
+            border: none !important;
+        }
     }
-  }
 }
 body > #browser {
-  margin-top: calc(-2 * var(--browser-padding));
-  #tabbrowser-tabpanels, #appcontent {
-    background-color: transparent !important;
-  }
+    margin-top: calc(-2 * var(--browser-padding));
+    #tabbrowser-tabpanels, #appcontent {
+        background-color: transparent !important;
+    }
 }
 
-/* Style Pads for more visual separation */
-tab {
-  opacity: .9;
-  &[pending="true"] {
-    filter: sepia(80%);
-    opacity: .7;
+/* Style Tabs for more visual separation */
+#tabbrowser-tabs tab {
+    z-index: 10;
+    &, & * {
+        transition: all ease .3s !important;
+    }
     .tab-background {
-      background: var(--transparent-bg-dark) !important;
+        background: color-mix(in srgb, currentColor 10%, var(--bg-mixer, var(--tab-bg, transparent))) !important;
     }
-  }
-  &:hover {
-    opacity: 1 !important;
-    @media not (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") {
-      .tab-content {
-        scale: 1.2;
-      }
+    &[pending="true"] {
+        .tab-background {
+            --tab-bg: var(--transparent-bg-solid);
+            filter: brightness(60%);
+        }
+        .tab-icon-stack {
+            filter: sepia(80%);
+        }
     }
-  }
-  &, .tab-background {
-    transition: all ease .3s;
-  }
-  --tab-selected-bgcolor: var(--transparent-bg-light);
-  
+    &:hover {
+        .tab-background: {
+            --tab-bg: var(--transparent-bg-light);
+            filter: brightness(100%);
+        }
+        .tab-icon-stack {
+            filter: sepia(0);
+            scale: 1.2;
+        }
+    }
+}
+
+/* Tab sizing - Support for magnification or different sizes. */
+#tabbrowser-tabs tab {
+    @media (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") {
+        --tab-width: 1;
+        --tab-height: var(--tab-scale);
+        @media (-moz-bool-pref: "glassfox.sidebar.magnification-width") {
+            --tab-width: var(--tab-scale);
+            --tab-height: 1;
+        }
+    }
+    --min-height: var(--tab-min-height);
+    min-width: calc(var(--collapsed-tab-width) * var(--tab-width,
+    1)) !important;
+    .tab-stack {
+        --tab-min-height: calc(var(--min-height) * var(--tab-size, 1) * var(--tab-height, 1));
+        .tab-icon-stack {
+            scale: calc(var(--tab-scale, 1) * var(--tab-size, 1));
+        }
+    }
 }
 
 /* Remove Scrollbars */
-#vertical-pinned-tabs-container, scrollbox  {
-  scrollbar-width: none !important;
+#vertical-pinned-tabs-container,
+scrollbox  {
+    scrollbar-width: none !important;
 }
 
 /* Add border radius to developer tools */
 browser[class*="devtools-toolbox"] {
-  border-radius: var(--border-radius);
-  overflow: hidden !important;
+    border-radius: var(--border-radius);
+    overflow: hidden !important;
 }
 splitter[class*="devtools"] {
-  display: none !important;
+    display: none !important;
 }
 
 /* Hide titlebar and adjust buttonbox as well as sidebar layout when sidebar is enabled */
 @media (-moz-bool-pref: "sidebar.verticalTabs") {
-  :root {
-    #titlebar {
-      display: none !important;
-    }
-    &:not([inFullscreen="true"]) #nav-bar > toolbartabstop:first-child {
-      appearance: -moz-window-button-box !important;
-      margin: 12px;
-    }
-    #sidebar-main {
-      margin-top: 0px !important;
-    }
-    &:has(#sidebar-main [expanded]) {
-      --sidebar-width: var(--sidebar-expanded-width)
-    }
-    &[BookmarksToolbarOverlapsBrowser] {
-      #PersonalToolbar {
-        margin-left: calc(var(--sidebar-width, var(--sidebar-collapsed-width)) + var(--browser-padding)) !important;
-      }
-      body > #browser > :not(#sidebar-main) {
-        margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height) + var(--browser-padding)) !important;
-      }
-    }
-  }
-}
-
-@media (-moz-bool-pref: "glassfox.sidebar.smaller-tabs") {
-  tab {
-    --tab-size:.7;
-  }
-}
-
-@media (-moz-bool-pref: "glassfox.sidebar.taller-pinned-tabs") {
-  #tabbrowser-tabs > :has(tab) {
-    max-height: 50% !important;
-  }
-}
-
-/* Custom Magnification effect for sidebar */
-@media (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") and (-moz-bool-pref: "sidebar.verticalTabs") {
-  sidebar-main:not([expanded]) {
-    overflow-x: clip;
-    #tabbrowser-tabs {
-      width:min-content;
-      & > :has(tab) {
-        max-height: 50% !important;
-        & > tab {
-          width: calc(100% * var(--tab-scale, 1)) !important;
-          --min-width: var(--tab-min-width);
-          --min-height: var(--tab-min-height);
-          .tab-stack {
-
-            --tab-min-height: calc(var(--min-height) * var(--tab-size, 1));
-            .tab-icon-stack {
-              transition: scale ease .3s;
-              scale: calc(var(--tab-scale, 1) * var(--tab-size, 1));
-            }
-          }
-          
-          &:has(+tab+tab:hover), &:is(tab:hover+tab+tab) {
-            --tab-scale:  1.05;
-          }
-          &:has(+tab:hover), &:is(tab:hover+tab) {
-            --tab-scale: 1.25;
-          }
-          &:hover {
-            --tab-scale: 1.5;
-          }
+    :root {
+        #titlebar {
+            display: none !important;
         }
-      }
+        &:not([inFullscreen="true"]) #nav-bar > toolbartabstop:first-child {
+            appearance: -moz-window-button-box !important;
+            margin: 12px;
+        }
+        #sidebar-main {
+            margin-top: 0px !important;
+        }
+        &:has(#sidebar-main [expanded]) {
+            --sidebar-width: var(--sidebar-expanded-width)
+    
+        
+        }
+        &[BookmarksToolbarOverlapsBrowser] {
+            #PersonalToolbar {
+                margin-left: calc(var(--sidebar-width, var(--sidebar-collapsed-width)) + var(--browser-padding)) !important;
+            }
+            body > #browser > :not(#sidebar-main) {
+                margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height) + var(--browser-padding)) !important;
+            }
+        }
     }
-    @media (-moz-bool-pref: "glassfox.sidebar.tab-preview-on-side") {
-      #tab-preview-panel {
-        margin-top: calc(-1 * var(--collapsed-tab-width)) !important;
-        margin-left: var(--collapsed-tab-width) !important;
-      }
-    }
-  }
 }
 
+/* Smaller Tabs */
+@media (-moz-bool-pref: "glassfox.sidebar.smaller-tabs") {
+    tab,
+    #tab-preview-panel {
+        --tab-size:.8;
+    }
+}
+
+/* Taller Pinned Tabs Container */
+@media (-moz-bool-pref: "glassfox.sidebar.taller-pinned-tabs") {
+    :root:not(:has(sidebar-main[expanded])) {
+        #tabbrowser-tabs {
+            height: 100% !important;
+            :has(tab) {
+                min-height: clamp(0px, 45%, 100%) !important;
+            }
+        }
+    }
+}
+
+/* Tab Preview On Side */
+@media (-moz-bool-pref: "glassfox.sidebar.tab-preview-on-side") and (-moz-bool-pref: "sidebar.verticalTabs") {
+    #tab-preview-panel {
+        @media not (-moz-bool-pref: "glassfox.sidebar.magnification-width") {
+            --tab-scale: 1.5;
+        }
+        margin-top: calc(-1 * var(--tab-min-height) * var(--tab-size,
+        1) * var(--tab-scale,
+        1)) !important;
+        margin-left: calc(var(--collapsed-tab-width)) !important;
+    }
+}
+
+/* macOS Dock-like magnification for sidebar */
+@media (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") and (-moz-bool-pref: "sidebar.verticalTabs") {
+    sidebar-main:not([expanded]) {
+        #vertical-tabs {
+            overflow: visible !important;
+        }
+        #tabbrowser-tabs {
+            overflow: visible clip !important;
+            width: min-content;
+            & > :has(tab) {
+        overflow: visible clip !important;
+                & > tab {
+                    @media (-moz-bool-pref: "glassfox.sidebar.magnification-width") {
+                        --bg-mixer: rgb(100, 100, 100);
+                    }
+                    &:has(+tab+tab:hover),
+                    &:is(tab:hover+tab+tab) {
+                        --tab-scale:  1.05;
+                    }
+                    &:has(+tab:hover),
+                    &:is(tab:hover+tab) {
+                        --tab-scale: 1.25;
+                    }
+                    &:hover {
+                        @media (-moz-bool-pref: "glassfox.sidebar.magnification-width") {
+                            --bg-mixer: rgb(120, 120, 120);
+                        }
+                        --tab-scale: 1.5;
+                    }
+                    &[pending] {
+                        @media (-moz-bool-pref: "glassfox.sidebar.magnification-width") {
+                            --bg-mixer: rgb(80, 80, 80);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 @media (-moz-bool-pref: "glassfox.sidebar.hide-new-tab-button") {
-  #vertical-tabs #newtab-button-container {
-    display: none;
-  }
+    #vertical-tabs #vertical-tabs-newtab-button {
+        display: none !important;
+    }
 }
