@@ -1,5 +1,7 @@
 /* General Sizing */
 :root {
+  --transparent-bg-dark: rgba(0, 0, 0, 0.2);
+  --transparent-bg-light: rgba(255, 255, 255, .05);
   --browser-padding: 10px;
   --border-radius: 5px;
   &:not([inFullscreen="true"]) {
@@ -8,13 +10,14 @@
 }
 
 /* Transparency/Translucency */
-:is(body > *,
-#navigator-toolbox,
-#browser
-) {
-  appearance: -moz-window-titlebar !important;
-  &:not(#customization-container) > * {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
+@media not (-moz-bool-pref: "glassfox.transparency.disabled") {
+  :is(body > *,
+  #navigator-toolbox,
+  #browser) {
+    appearance: -moz-window-titlebar !important;
+    &:not(#customization-container) > * {
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
+    }
   }
 }
 
@@ -41,6 +44,31 @@ body > #browser {
   #tabbrowser-tabpanels, #appcontent {
     background-color: transparent !important;
   }
+}
+
+/* Style Pads for more visual separation */
+tab {
+  opacity: .9;
+  &[pending="true"] {
+    filter: sepia(80%);
+    opacity: .7;
+    .tab-background {
+      background: var(--transparent-bg-dark) !important;
+    }
+  }
+  &:hover {
+    opacity: 1 !important;
+    @media not (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") {
+      .tab-content {
+        scale: 1.2;
+      }
+    }
+  }
+  &, .tab-background {
+    transition: all ease .3s;
+  }
+  --tab-selected-bgcolor: var(--transparent-bg-light);
+  
 }
 
 /* Remove Scrollbars */
@@ -84,6 +112,18 @@ splitter[class*="devtools"] {
   }
 }
 
+@media (-moz-bool-pref: "glassfox.sidebar.smaller-tabs") {
+  tab {
+    --tab-size:.7;
+  }
+}
+
+@media (-moz-bool-pref: "glassfox.sidebar.taller-pinned-tabs") {
+  #tabbrowser-tabs > :has(tab) {
+    max-height: 50% !important;
+  }
+}
+
 /* Custom Magnification effect for sidebar */
 @media (-moz-bool-pref: "glassfox.sidebar.magnification-enabled") and (-moz-bool-pref: "sidebar.verticalTabs") {
   sidebar-main:not([expanded]) {
@@ -93,13 +133,16 @@ splitter[class*="devtools"] {
       & > :has(tab) {
         max-height: 50% !important;
         & > tab {
-          transition: width ease .2s !important;
-          transform-origin: left center;
-          width: calc( 100% * var(--tab-scale, 1)) !important;
-          
-          .tab-icon-stack {
-            transition: scale ease .3s;
-            scale: var(--tab-scale);
+          width: calc(100% * var(--tab-scale, 1)) !important;
+          --min-width: var(--tab-min-width);
+          --min-height: var(--tab-min-height);
+          .tab-stack {
+
+            --tab-min-height: calc(var(--min-height) * var(--tab-size, 1));
+            .tab-icon-stack {
+              transition: scale ease .3s;
+              scale: calc(var(--tab-scale, 1) * var(--tab-size, 1));
+            }
           }
           
           &:has(+tab+tab:hover), &:is(tab:hover+tab+tab) {
@@ -112,6 +155,12 @@ splitter[class*="devtools"] {
             --tab-scale: 1.5;
           }
         }
+      }
+    }
+    @media (-moz-bool-pref: "glassfox.sidebar.tab-preview-on-side") {
+      #tab-preview-panel {
+        margin-top: calc(-1 * var(--collapsed-tab-width)) !important;
+        margin-left: var(--collapsed-tab-width) !important;
       }
     }
   }
