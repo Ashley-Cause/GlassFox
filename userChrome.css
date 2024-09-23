@@ -39,6 +39,11 @@ General Browser Styling
             border: none !important;
         }
     }
+    body > #appcontent > browser {
+        border-radius: var(--border-radius) !important;
+        border: none !important;
+        clip-path: circle(100%);
+    }
 }
 body > #browser {
     margin-top: calc(-2 * var(--browser-padding));
