@@ -6,7 +6,7 @@
     --browser-padding: 10px;
     --border-radius: 5px;
     &:not([inFullscreen="true"]) {
-        --toolbar-bgcolor: tranparent !important;
+        --toolbar-bgcolor: transparent !important;
     }
 }
 
